@@ -353,3 +353,4 @@ MigrationBackup/
 *.bak
 /Demo/Demo.WPF/Properties/Resources.Designer.cs
 /Demo/Demo.WPF/Properties/Settings.Designer.cs
+/tools
