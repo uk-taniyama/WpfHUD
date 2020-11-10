@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Demo.MainPage">
+
+    <StackLayout>
+        <Button Text="ShowMessage" Clicked="Button_Clicked_1" />
+        <Button Text="ShowProgress" Clicked="Button_Clicked_2" />
+        <Button Text="ShowToast()" Clicked="Button_Clicked_3" />
+        <Button Text="ShowToast(false)" Clicked="Button_Clicked_4" />
+        <Button Text="ShowToast(Clear)" Clicked="Button_Clicked_5" />
+    </StackLayout>
+
+</ContentPage>

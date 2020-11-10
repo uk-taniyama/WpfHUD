@@ -1,0 +1,51 @@
+﻿<Project>
+  <PropertyGroup>
+    <Copyright>Copyright (c) 2020, UK-taniyama</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/uk-taniyama/WpfHUD</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/uk-taniyama/WpfHUD</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Authors>UK-taniyama</Authors>
+    <Owners>UK-taniyama</Owners>
+<!--
+    <PackageReleaseNotes>https://github.com/uk-taniyama/WpfHUD/releases</PackageReleaseNotes>
+    <PackageIconUrl>https://raw.githubusercontent.com/uk-taniyama/WpfHUD/icon.png</PackageIconUrl>
+-->
+    <Title>WpfHUD</Title>
+    <Summary>WpfHUD is a Progress / HUD library for WPF(Xamarin)</Summary>
+    <Description>WpfHUD is a Progress / HUD library for WPF(Xamarin) which allows you to easily add amazing HUDs to your app!</Description>
+    <PackageTags>Xamarin, WPF, Progress</PackageTags>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+
+    <Product>$(AssemblyName) ($(TargetFramework))</Product>
+    <Version>0.0.1</Version>
+    <Platform>AnyCPU</Platform>
+    <LangVersion>7.3</LangVersion>
+<!--
+    <NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000;NU1603</NoWarn>
+-->
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DesignTimeBuild>false</DesignTimeBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' And '$(OS)' == 'Windows_NT' ">
+    <!--<IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
+    
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+  
+</Project>
