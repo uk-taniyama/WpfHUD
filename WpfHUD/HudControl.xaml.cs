@@ -2,12 +2,12 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace WpfHUDDemo
+namespace WpfHUD
 {
     /// <summary>
     /// HudControl.xaml
     /// </summary>
-    public partial class HudControl : UserControl
+    partial class HudControl : UserControl
     {
         public HudControl()
         {

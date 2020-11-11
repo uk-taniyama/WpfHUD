@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows.Shell;
 using System.Windows.Threading;
 
-namespace WpfHUDDemo
+namespace WpfHUD
 {
     class HudHelper
     {

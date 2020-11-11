@@ -1,5 +1,5 @@
 ﻿using System.Windows.Shell;
-using WpfHUDDemo;
+using WpfHUD;
 
 namespace XHUD
 {
