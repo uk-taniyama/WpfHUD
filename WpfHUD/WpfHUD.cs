@@ -9,7 +9,7 @@ using System.Windows.Threading;
 
 namespace WpfHUD
 {
-    class HudHelper
+    class WpfHUD
     {
         #region Internal Member
         private Popup Popup;

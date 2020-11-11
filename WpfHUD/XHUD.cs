@@ -1,5 +1,4 @@
 ﻿using System.Windows.Shell;
-using WpfHUD;
 
 namespace XHUD
 {
@@ -13,30 +12,30 @@ namespace XHUD
 
     public static class HUD
     {
-        private static HudHelper Helper = new HudHelper();
+        private static WpfHUD.WpfHUD WpfHUD = new WpfHUD.WpfHUD();
 
         public static void Show(string message, int progress = -1, MaskType maskType = MaskType.Black)
         {
-            Helper.Show(message, progress, maskType, true, -1);
+            WpfHUD.Show(message, progress, maskType, true, -1);
         }
         public static void ShowToast(string message, bool showToastCentered = true, double timeoutMs = 1000)
         {
-            Helper.Show(message, -1, MaskType.Black, showToastCentered, timeoutMs);
+            WpfHUD.Show(message, -1, MaskType.Black, showToastCentered, timeoutMs);
         }
 
         public static void ShowToast(string message, MaskType maskType, bool showToastCentered = true, double timeoutMs = 1000)
         {
-            Helper.Show(message, -1, maskType, showToastCentered, timeoutMs);
+            WpfHUD.Show(message, -1, maskType, showToastCentered, timeoutMs);
         }
 
         public static void Dismiss()
         {
-            Helper.Dismiss();
+            WpfHUD.Dismiss();
         }
 
         public static TaskbarItemInfo GetTaskbarItemInfo()
         {
-            return Helper.GetTaskbarItemInfo();
+            return WpfHUD.GetTaskbarItemInfo();
         }
     }
 }

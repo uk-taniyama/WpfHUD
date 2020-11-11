@@ -103,10 +103,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HudControl.xaml.cs" />
-    <Compile Include="HudHelper.cs" />
+    <Compile Include="WpfHUD.cs" />
     <Compile Include="XHUD.cs" />
     <None Remove="HudControl.xaml.cs" />
-    <None Remove="HudHelper.cs" />
+    <None Remove="WpfHUD.cs" />
     <None Remove="XHUD.cs" />
   </ItemGroup>
   <ItemGroup>
