@@ -78,12 +78,22 @@ namespace WpfHUD
                 TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
                 TaskbarItemInfo.ProgressValue = progress / 100.0;
             }
-
+            
             MainWindow.Activated += MainWindow_Activated;
+            MainWindow.Deactivated += MainWindow_Deactivated;
+            MainWindow.SizeChanged += MainWindow_SizeChanged;
             MainWindow.Closed += MainWindow_Closed;
             Popup.Opened += Popup_Opened;
-            UpdateSize();
-            Popup.IsOpen = true;
+            Popup.MouseDown += Popup_MouseDown;
+            if (MainWindow.IsLoaded)
+            {
+                UpdateSize();
+                Popup.IsOpen = true;
+            }
+            else
+            {
+                MainWindow.Loaded += MainWindow_Loaded;
+            }
         }
 
         internal void Dismiss()
@@ -94,11 +104,15 @@ namespace WpfHUD
             {
                 if (MainWindow != null)
                 {
-                    MainWindow.Closed -= MainWindow_Closed;
                     MainWindow.Activated -= MainWindow_Activated;
+                    MainWindow.Deactivated -= MainWindow_Deactivated;
+                    MainWindow.SizeChanged -= MainWindow_SizeChanged;
+                    MainWindow.Closed -= MainWindow_Closed;
+                    MainWindow.Loaded -= MainWindow_Loaded;
                 }
                 Popup.IsOpen = false;
                 Popup.Opened -= Popup_Opened;
+                Popup.MouseDown -= Popup_MouseDown;
                 Popup = null;
             }
             if (Control != null)
@@ -120,20 +134,34 @@ namespace WpfHUD
             DebugPrint("MainWindow_Activated");
             UpdateZOrder();
         }
+        private void MainWindow_Deactivated(object sender, EventArgs e)
+        {
+            DebugPrint("MainWindow_Deactivated");
+            UpdateZOrder(false);
+        }
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            DebugPrint("MainWindow_Loaded");
+            Popup.IsOpen = true;
+        }
         private void MainWindow_Closed(object sender, EventArgs e)
         {
             DebugPrint("MainWindow_Closed");
             Dismiss();
         }
-
-        private void MainWindow_Deactivated(object sender, EventArgs e)
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            DebugPrint("MainWindow_Deactivated");
+            DebugPrint("MainWindow_SizeChanged");
+            UpdateSize();
         }
-
         private void Popup_Opened(object sender, EventArgs e)
         {
+            DebugPrint("Popup_Opened");
             UpdateZOrder();
+        }
+        private void Popup_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            MainWindow.Activate();
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -148,14 +176,27 @@ namespace WpfHUD
         private void UpdateSize()
         {
             var rect = MainWindow.RestoreBounds;
+            if (rect.IsEmpty)
+            {
+                return;
+            }
             Control.Width = rect.Width;
             Control.Height = rect.Height;
             Popup.PlacementRectangle = new System.Windows.Rect(rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        private void UpdateZOrder()
+        private void UpdateZOrder(bool activate = true)
         {
-            _ = SetWindowPos(GetHwnd(Popup.Child), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+            if (activate)
+            {
+                _ = SetWindowPos(GetHwnd(MainWindow), HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+                _ = SetWindowPos(GetHwnd(Popup.Child), HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+            }
+            else
+            {
+                _ = SetWindowPos2(GetHwnd(Popup.Child), GetHwnd(MainWindow), 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+                _ = SetWindowPos2(GetHwnd(MainWindow), GetHwnd(Popup.Child), 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+            }
         }
         #endregion
 
@@ -170,12 +211,18 @@ namespace WpfHUD
             return hwndSource.Handle;
         }
 
+        private const int HWND_TOP = 0;
         private const int HWND_NOTOPMOST = -2;
         private const int SWP_NOMOVE = 2;
         private const int SWP_NOSIZE = 1;
+        private const int SWP_NOACTIVATE = 0x10;
 
         [DllImport("user32", EntryPoint = "SetWindowPos")]
         private static extern int SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
+
+        [DllImport("user32", EntryPoint = "SetWindowPos")]
+        private static extern int SetWindowPos2(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
+
         #endregion
     }
 }
